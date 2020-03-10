@@ -23,7 +23,7 @@ public class Node
 
     protected virtual void Exit()
     {
-
+        
     }
     public virtual Status Tick()
     {
