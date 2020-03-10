@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BehaviourTree : MonoBehaviour
+public class BehaviourTree 
 {
-    // Start is called before the first frame update
-    void Start()
+    public Composite radacina;
+    public BehaviourTree()
     {
+        radacina = new Composite();
         
     }
-
-    // Update is called once per frame
-    void Update()
+    public void Run()
     {
-        
+        radacina.Tick();
     }
+   
 }
