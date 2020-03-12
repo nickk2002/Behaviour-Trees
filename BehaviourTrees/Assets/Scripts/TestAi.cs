@@ -88,7 +88,7 @@ public class TestAi : MonoBehaviour
             new Sequence(
                 new List<Node>{ 
                    
-                    new ActionNode((Func<Status>)GoToLocation,GoToLocationStart,null,10),
+                    new ActionNode((Func<Status>)GoToLocation,GoToLocationStart),
                     new ActionNode((Func<Status>)RotateObj,StartRotate),
                     new Sequence(
                         new List<Node>
