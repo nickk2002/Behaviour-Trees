@@ -15,7 +15,7 @@ public class Composite : Node
     }
     protected override void Start()
     {
-        base.Start();
+      
     }
     protected override Status Execute()
     {
@@ -23,13 +23,12 @@ public class Composite : Node
     }
     public override Status Tick()
     {
+        //Debug.Log("Status of composite : " + this.GetType().Name + " " + status);
         return base.Tick();
     }
 
     protected override void Exit()
     {
-        base.Exit();
+        
     }
-
-
 }
