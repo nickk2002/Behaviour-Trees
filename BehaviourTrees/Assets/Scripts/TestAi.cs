@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using static Node;
+using System;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
@@ -15,25 +15,25 @@ public class TestAi : MonoBehaviour
     Vector3 random = new Vector3(0, 0, 0);
     void GoToLocationStart()
     {
-        
+
         agent.SetDestination(random);
     }
     Status GoToLocation()
     {
-        if (Vector3.Distance(transform.position,random) > 3f)
+        if (Vector3.Distance(transform.position, random) > 3f)
         {
-            return Status.Running;   
+            return Status.Running;
         }
-      
+
         if (agent.remainingDistance <= 3f)
         {
             agent.isStopped = true;
             return Status.Success;
         }
-        
+
         return Status.Failure;
     }
-    Quaternion initial,reach;
+    Quaternion initial, reach;
     float initialTime;
     void StartRotate()
     {
@@ -42,8 +42,8 @@ public class TestAi : MonoBehaviour
         reach = initial * Quaternion.Euler(0, 120, 0);
     }
     Status RotateObj()
-    { 
-        transform.rotation = Quaternion.Slerp(initial,reach,(Time.time - initialTime) / 3f);
+    {
+        transform.rotation = Quaternion.Slerp(initial, reach, (Time.time - initialTime) / 3f);
         if (Mathf.Abs(transform.eulerAngles.y - initial.eulerAngles.y - 120f) < 2f)
         {
             return Status.Success;
@@ -53,7 +53,7 @@ public class TestAi : MonoBehaviour
     Status Jump()
     {
         rigidbody.AddForce(10, 0, 0, ForceMode.Impulse);
-        if(transform.position.z >= 10)
+        if (transform.position.z >= 10)
             return Status.Success;
         return Status.Running;
     }
@@ -73,6 +73,10 @@ public class TestAi : MonoBehaviour
             return Status.Failure;
         return Status.Running;
     }
+    Status Ceva(int a)
+    {
+        return Status.None;
+    }
 
     private void Start()
     {
@@ -80,24 +84,27 @@ public class TestAi : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         rigidbody = GetComponent<Rigidbody>();
         tree = new BehaviourTree
-        {
-            radacina =
+        (
             new Sequence(
-
-                new List<Node>{
-                    new ActionNode(GoToLocation,GoToLocationStart),
-                    new ActionNode(RotateObj,StartRotate),
+                new List<Node>{ 
+                   
+                    new ActionNode((Func<Status>)GoToLocation,GoToLocationStart,null,10),
+                    new ActionNode((Func<Status>)RotateObj,StartRotate),
                     new Sequence(
                         new List<Node>
                         {
-                            new ActionNode(ChangeColor,StartChangeColor),
+                            new ActionNode((Func<Status>)ChangeColor,StartChangeColor),
                         }
                     )
                 }
              )
-        };
-        tree.Run();
+        );
+       
 
+    }
+    private void Update()
+    {
+        tree.Run();
     }
 
 }

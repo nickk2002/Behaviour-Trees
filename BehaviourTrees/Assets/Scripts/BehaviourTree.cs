@@ -5,16 +5,22 @@ using UnityEngine;
 
 public class BehaviourTree
 {  
-    public Composite radacina;
+    public Node radacina;
     
     public BehaviourTree()
     {
-        radacina = new Composite();
+        radacina = new Node();
+
+    }
+    public BehaviourTree(Node node)
+    {
+        radacina = node;
 
     }
     public void Run()
     {
-        radacina.Tick();
+        if(radacina.CurrentStatus == Status.Running || radacina.CurrentStatus == Status.None)
+            radacina.Evaluate();
     }
 
 }

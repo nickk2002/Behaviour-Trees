@@ -17,14 +17,14 @@ public class Composite : Node
     {
       
     }
-    protected override Status Execute()
+    public override Status Execute()
     {
         return base.Execute();
     }
-    public override Status Tick()
+    public override Status Evaluate()
     {
         //Debug.Log("Status of composite : " + this.GetType().Name + " " + status);
-        return base.Tick();
+        return base.Evaluate();
     }
 
     protected override void Exit()
